@@ -1,0 +1,36 @@
+import { Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { UsersService } from 'src/users/users.service';
+import * as bcrypt from 'bcrypt';
+import { SafeUserDto } from 'src/users/dto/safe-user.dto';
+import { JwtPayload } from './interfaces/jwt-payload.interface';
+
+@Injectable()
+export class AuthService {
+  constructor(
+    private userService: UsersService,
+    private jwtService: JwtService,
+  ) {}
+
+  async validateUser(
+    username: string,
+    pass: string,
+  ): Promise<SafeUserDto | null> {
+    const user = await this.userService.findByUsername(username);
+    if (!user) return null;
+
+    const isValidPassword = await bcrypt.compare(pass, user.password);
+    if (!isValidPassword) return null;
+
+    const { password: _, ...safeUser } = user;
+    return safeUser;
+  }
+
+  login(user: SafeUserDto) {
+    const payload: JwtPayload = { username: user.username, sub: user.id };
+
+    return {
+      access_token: this.jwtService.sign(payload),
+    };
+  }
+}
