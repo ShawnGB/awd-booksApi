@@ -1,8 +1,15 @@
 import { Module } from '@nestjs/common';
-import { databaseProviders } from './database.provider';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  providers: [...databaseProviders],
-  exports: [...databaseProviders],
+  imports: [
+    TypeOrmModule.forRoot({
+      type: 'sqlite',
+      database: 'books-api.sqlite',
+      entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+      synchronize: true,
+    }),
+  ],
+  exports: [TypeOrmModule],
 })
 export class DatabaseModule {}
