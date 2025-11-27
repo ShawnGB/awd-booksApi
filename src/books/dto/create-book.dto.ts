@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, Min, Max } from 'class-validator';
 
 export class CreateBookDto {
   @IsNotEmpty()
@@ -10,5 +10,7 @@ export class CreateBookDto {
   author: string;
 
   @IsNumber()
+  @Min(1000)
+  @Max(new Date().getFullYear() + 1)
   publishedYear: number;
 }
