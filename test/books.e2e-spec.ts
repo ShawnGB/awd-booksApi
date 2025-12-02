@@ -39,17 +39,21 @@ describe('Books API (e2e)', () => {
 
   afterAll(async () => {
     if (dataSource) {
-      await dataSource.query('DELETE FROM user WHERE email = ?', [
+      await dataSource.query('DELETE FROM "user" WHERE email = $1', [
         'book@example.com',
       ]);
+    }
+    if (app) {
+      await app.close();
+    }
+    if (dataSource && dataSource.isInitialized) {
       await dataSource.destroy();
     }
-    await app.close();
   });
 
   afterEach(async () => {
     if (dataSource && createdBookId) {
-      await dataSource.query('DELETE FROM book WHERE id = ?', [createdBookId]);
+      await dataSource.query('DELETE FROM book WHERE id = $1', [createdBookId]);
       createdBookId = '';
     }
   });
