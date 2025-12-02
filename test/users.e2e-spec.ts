@@ -39,17 +39,21 @@ describe('Users API (e2e)', () => {
 
   afterAll(async () => {
     if (dataSource) {
-      await dataSource.query('DELETE FROM user WHERE email = ?', [
+      await dataSource.query('DELETE FROM "user" WHERE email = $1', [
         'auth@example.com',
       ]);
+    }
+    if (app) {
+      await app.close();
+    }
+    if (dataSource && dataSource.isInitialized) {
       await dataSource.destroy();
     }
-    await app.close();
   });
 
   afterEach(async () => {
     if (dataSource && createdUserId) {
-      await dataSource.query('DELETE FROM user WHERE id = ?', [createdUserId]);
+      await dataSource.query('DELETE FROM "user" WHERE id = $1', [createdUserId]);
       createdUserId = '';
     }
   });
