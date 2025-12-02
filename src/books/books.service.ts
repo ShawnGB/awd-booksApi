@@ -34,7 +34,11 @@ export class BooksService {
       throw new NotFoundException(`Book with ID ${id} not found`);
     }
     await this.bookRepository.update(id, { ...updateBookDto });
-    return await this.bookRepository.findOne({ where: { id } });
+    const updatedBook = await this.bookRepository.findOne({ where: { id } });
+    if (!updatedBook) {
+      throw new NotFoundException(`Book with ID ${id} not found after update`);
+    }
+    return updatedBook;
   }
 
   async remove(id: string): Promise<void> {
