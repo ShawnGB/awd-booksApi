@@ -36,11 +36,9 @@ http://localhost:3000/api
 - **Documentation**: OpenAPI/Swagger documentation
 
 ### Planned 📋
-- Environment configuration
 - Database migrations
 - API documentation (Swagger)
 - Comprehensive test coverage
-- Deployment configuration
 
 See [TASKS.md](./TASKS.md) for the complete task list.
 
@@ -200,6 +198,15 @@ npm run start:debug
 
 The API will be available at `http://localhost:3000/api`
 
+## 🚀 Deployment
+
+This application is configured for continuous deployment on Render.
+
+- **Deployment Guide**: See [DEPLOYMENT.md](./DEPLOYMENT.md) for complete deployment instructions
+- **Auto-Deploy**: Configured via `render.yaml` - pushes to `main` branch trigger automatic deployments
+- **Production Database**: PostgreSQL (SQLite for local development only)
+- **Docker**: Uses multi-stage build for optimized production image
+
 ## 🧪 Testing
 
 ### Run Unit Tests
@@ -299,10 +306,10 @@ src/
 
 ## 🔄 Database
 
-- **Type**: SQLite
+- **Type**: PostgreSQL (production), SQLite (development/testing)
 - **ORM**: TypeORM
-- **Location**: `books-api.sqlite` (project root)
-- **Auto-sync**: Enabled in development (disable for production)
+- **Location**: `books-api.sqlite` (local development only)
+- **Auto-sync**: Enabled in development, disabled in production
 
 ### Entities
 
