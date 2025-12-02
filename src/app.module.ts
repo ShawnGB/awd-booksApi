@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DatabaseModule } from './database/database.module';
@@ -9,7 +10,16 @@ import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { BooksModule } from './books/books.module';
 
 @Module({
-  imports: [DatabaseModule, UsersModule, AuthModule, BooksModule],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
+    DatabaseModule,
+    UsersModule,
+    AuthModule,
+    BooksModule,
+  ],
   controllers: [AppController],
   providers: [
     AppService,
