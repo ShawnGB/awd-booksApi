@@ -1,0 +1,13 @@
+services:
+  books-api:
+    build: .
+    container_name: books-api
+    ports:
+      - "3000:3000"
+    volumes:
+      # Persist SQLite database file
+      - ./books-api.sqlite:/app/books-api.sqlite
+    environment:
+      - PORT=3000
+      - NODE_ENV=production
+    restart: unless-stopped
