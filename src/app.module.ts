@@ -19,7 +19,7 @@ import { BooksModule } from './books/books.module';
     }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'),
-      exclude: ['/api*'],
+      exclude: ['/api/*'],
     }),
     DatabaseModule,
     UsersModule,
